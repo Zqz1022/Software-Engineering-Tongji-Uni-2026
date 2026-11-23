@@ -4,7 +4,7 @@
 
 | 模型 | 覆盖内容 | 可编辑源文件 | 预览 |
 | --- | --- | --- | --- |
-| 系统用例图 | UC-01 至 UC-26；五类用户及三个外部系统 | [use-cases.puml](use-cases.puml) | [SVG](use-cases.svg) |
+| 系统用例图 | UC-01 至 UC-26；五个功能视图明确游客浏览、普通用户提交举报及版主/管理员治理边界 | [use-cases.puml](use-cases.puml) | [SVG](use-cases.svg) |
 | 身份关联活动图 | UC-19：校方认证、结果核验、唯一关联及失败处理 | [activity-identity.puml](activity-identity.puml) | [SVG](activity-identity.svg) |
 | 文本消息活动图 | UC-12，关联 UC-10、UC-18：权限、保存、确认、投递与重试 | [activity-messaging.puml](activity-messaging.puml) | [SVG](activity-messaging.svg) |
 | VIP 充值活动图 | UC-21、UC-22，关联 UC-20、UC-25、UC-26：双渠道支付及一次性发放 | [activity-vip-payment.puml](activity-vip-payment.puml) | [SVG](activity-vip-payment.svg) |
