@@ -65,6 +65,8 @@ Spring Boot、MyBatis、Flyway 等库的具体版本固定在 pom 和父 BOM 中
 
 ## 4. 接口与数据开发
 
+登录后的公共布局位于 `frontend/src/layouts/AppLayout.vue`：顶部导航对应广场 `/`、聊天 `/chat`、VIP `/vip`，头像菜单进入编辑账号 `/account` 或退出登录。四个页面均受登录保护，分别位于 forum、chat、membership、user 模块。当前页面使用共享的 `DevelopmentPage.vue` 展示开发中提示；功能开发时替换对应模块的页面主体，沿用公共导航和会话。头像暂用默认图标，真实头像随账号资料功能接入。
+
 接口规范见 [契约维护说明](../../contracts/README.md)。后端请求校验失败返回 400，未认证返回 401，权限或 CSRF 不通过返回 403；前端不把失败展示成成功。Cookie 不进入 localStorage，会员及管理身份由后端判定。
 
 新增业务接口必须校验账号状态和资源权限。当前框架通过 `UserService.requireActive` 统一查询账号状态，板块接口展示其调用方式；登录身份不自动意味着可以访问任意订单、会话或管理功能。禁止在整个 API 上关闭 CSRF；未来外部支付通知按其特定路径配置并独立验签。

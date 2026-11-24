@@ -7,9 +7,18 @@ export const router = createRouter({
     { path: '/login', name: 'login', component: () => import('../modules/auth/LoginPage.vue') },
     {
       path: '/',
-      name: 'home',
-      component: () => import('../modules/forum/BoardsPage.vue'),
+      component: () => import('../layouts/AppLayout.vue'),
       meta: { requiresAuth: true },
+      children: [
+        { path: '', name: 'home', component: () => import('../modules/forum/PlazaPage.vue') },
+        { path: 'chat', name: 'chat', component: () => import('../modules/chat/ChatPage.vue') },
+        { path: 'vip', name: 'vip', component: () => import('../modules/membership/VipPage.vue') },
+        {
+          path: 'account',
+          name: 'account',
+          component: () => import('../modules/user/AccountPage.vue'),
+        },
+      ],
     },
     { path: '/:pathMatch(.*)*', redirect: '/' },
   ],

@@ -70,9 +70,9 @@ pnpm dev
 
 不安装全局 pnpm 时，也可在 frontend 中分别用 `npx --yes --registry=https://registry.npmjs.org/ pnpm@10.32.1 install --frozen-lockfile` 和 `npx --yes --registry=https://registry.npmjs.org/ pnpm@10.32.1 dev` 启动，Node 版本要求相同。
 
-访问 <http://127.0.0.1:5173>，选择开发用户一至四中的一个进入论坛。板块从 MySQL 经后端读取，刷新页面保持会话，退出后受保护页面要求重新登录。四个账号均为普通开发身份，不对应具体组员，也不赋予 VIP 或管理权限。
+访问 <http://127.0.0.1:5173>，选择开发用户一至四中的一个进入应用。顶部可以切换“广场／聊天／VIP”，右上角头像菜单提供“编辑账号”和“退出登录”。各功能主体展示开发中提示；刷新页面保持当前页面与会话，退出后受保护页面要求重新登录。四个账号均为普通开发身份，不对应具体组员，也不赋予 VIP 或管理权限。
 
-框架已提供登录态、板块联通和测试基础；QQ／微信真实登录、帖子评论、私聊、支付和治理按用户故事继续实现。开发登录只在 dev/test 中启用，部署配置关闭该入口。
+框架已提供应用导航、登录态、板块接口联通和测试基础；QQ／微信真实登录、账号编辑、帖子评论、私聊、支付、装扮和治理按用户故事继续实现。板块接口保留供联调与测试使用，首页不再展示示例板块。开发登录只在 dev/test 中启用，部署配置关闭该入口。
 
 - [开发与协作指南](docs/development/README.md)：版本安装、Windows 命令、模块认领、配置、测试和排错。
 - [接口契约](contracts/openapi.yaml)及[接口维护说明](contracts/README.md)。
@@ -98,6 +98,6 @@ pnpm test
 pnpm build
 ```
 
-后端开发服务运行时，在 frontend 中执行 `pnpm exec playwright install chromium` 和 `pnpm test:e2e`，验证浏览器登录、读取板块、刷新与退出流程。
+后端开发服务运行时，在 frontend 中执行 `pnpm exec playwright install chromium` 和 `pnpm test:e2e`，验证登录、顶部导航、头像菜单、刷新与退出流程，同时通过带会话的请求验证板块接口联通。
 
 [GitHub Actions](.github/workflows/ci.yml) 在 push／PR 时运行前端检查、后端单元及 MySQL 集成测试、浏览器验收，并保存测试报告。仓库设置中的 main 必需检查应包含 `Frontend checks`、`Backend checks`、`Browser checks`；工作流文件不会自动修改远端保护规则。
