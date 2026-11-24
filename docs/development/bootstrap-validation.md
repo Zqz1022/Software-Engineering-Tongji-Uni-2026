@@ -6,7 +6,7 @@
 | 分支 | chore/project-bootstrap |
 | 范围 | 前后端骨架、MySQL 迁移、开发会话、受保护板块接口、契约、CI 配置和容器模板 |
 | 执行方式 | OpenAI Codex 在本地执行命令与浏览器验证；人工评审记录由对应 PR 保存 |
-| 环境 | macOS arm64、Java 21（本机 SapMachine 21.0.12-ea）、Node.js 22.23.1、pnpm 10.32.1、Maven Wrapper 3.9.13、MySQL 8.4.8 |
+| 环境 | macOS arm64、Java 21、Node.js 22.23.1、pnpm 10.32.1、Maven Wrapper 3.9.13、MySQL 8.4.8 |
 
 ## 1. 检查结果
 
