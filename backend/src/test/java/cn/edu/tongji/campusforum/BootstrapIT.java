@@ -115,7 +115,7 @@ class BootstrapIT {
         MvcResult result = mvc.perform(request).andExpect(status().isOk()).andReturn();
         Cookie cookie = result.getResponse().getCookie("SESSION");
         return new Csrf(cookie == null ? session : cookie,
-                json.readTree(result.getResponse().getContentAsString()).get("token").asText());
+                json.readTree(result.getResponse().getContentAsString()).get("token").asString());
     }
 
     private Cookie login(Csrf csrf, int userId) throws Exception {

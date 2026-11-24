@@ -11,7 +11,6 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.core.env.Environment;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -76,9 +75,9 @@ public class SecurityConfiguration {
                         .anyRequest().authenticated())
                 .csrf(csrf -> csrf.csrfTokenRepository(csrfRepository))
                 .securityContext(context -> context.securityContextRepository(contextRepository))
-                .requestCache(AbstractHttpConfigurer::disable)
-                .httpBasic(AbstractHttpConfigurer::disable)
-                .formLogin(AbstractHttpConfigurer::disable)
+                .requestCache(cache -> cache.disable())
+                .httpBasic(basic -> basic.disable())
+                .formLogin(form -> form.disable())
                 .exceptionHandling(errors -> errors
                         .authenticationEntryPoint((request, response, exception) ->
                                 writeError(json, response, 401, "UNAUTHENTICATED", "请先登录"))
