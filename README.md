@@ -21,13 +21,14 @@
 
 ## 项目文档
 
-- [第一次课后至第二次课前的阶段调研报告](docs/design/tongji-campus-forum-research-plan.md)，现为 1.2 版，按 QQ／微信登录方案修订，包含项目章程、四类业务角色、VIP 充值、28 条用户故事与验收标准、技术风险和工程过程。
+- [第一次课后至第二次课前的阶段调研报告](docs/design/tongji-campus-forum-research-plan.md)，现为 1.3 版，包含项目章程、四类业务角色、QQ／微信登录、VIP 充值、用户故事摘要与清单索引、技术风险和工程过程。
 - [选题 Issue #1](https://github.com/Zqz1022/Software-Engineering-Tongji-Uni-2026/issues/1)。
 
 报告采用公开资料分析与校园场景分析方法，由 OpenAI Codex 辅助整理，资料来源和 AI 使用范围列于正文。
 
 ## 需求规约与场景模型
 
+- [用户故事清单 1.0](docs/requirements/user-stories.md)，按业务分组维护 US-01 至 US-28，包含 26 条功能故事、2 条非功能故事及 Given / When / Then 验收标准。
 - [软件需求规格说明书（SRS）0.2](docs/requirements/software-requirements-specification.md)，包含 QQ／微信登录、四类业务角色、26 项功能需求、3 项非功能需求与验收条件。
 - [用例与场景说明](docs/requirements/use-cases-and-scenarios.md)，包含完整用例目录，以及第三方登录、私聊消息、VIP 充值细化场景。
 - [需求模型索引与图源](models/requirements/README.md)，提供用例图及 3 张活动图的 PlantUML 源文件和 SVG 预览。
