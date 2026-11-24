@@ -60,8 +60,10 @@ jobs:
         with:
           distribution: temurin
           java-version: '21'
-          cache: maven
-          cache-dependency-path: backend/pom.xml
+      - uses: actions/cache@v4
+        with:
+          path: backend/.cache/maven/repository
+          key: maven-${{ runner.os }}-java21-${{ hashFiles('backend/pom.xml', 'backend/.mvn/*.xml', 'backend/.mvn/maven.config') }}
       - name: Unit tests, MySQL integration tests and package
         working-directory: backend
         run: ./mvnw --batch-mode verify

@@ -48,3 +48,13 @@ JaCoCo 报告针对当前框架 Java 代码：行覆盖 99／106（93.4%），�
 本次在 Docker Hub 连接失败时，从公开 ECR 的 Docker 官方镜像镜像源下载相同版本并赋予本地标签；Maven 使用临时独立配置访问 Maven Central，未修改个人 Maven 配置。测试结束后停止本次启动的服务，保留开发数据库卷，移除仅用于 prod 验证的隔离容器和数据卷。
 
 本次新增应用骨架、页面、测试与配置由 Codex 辅助生成和调整，AI 辅助比例估计约 100%；Maven Wrapper 来自官方工具生成，依赖锁文件与接口类型来自相应工具。项目组仍通过 PR 记录代码理解、人工修改与合并放行。
+
+## 4. 启动环境修正（2026-11-24）
+
+针对首次按 README 启动时继承个人 Maven 公司仓库、pnpm 未安装的问题，补充项目级 Maven 配置与缓存隔离、公共 npm 仓库配置，以及 Node／pnpm 的明确准备步骤。个人 Maven 配置和其他 Node 版本的工具保持原样。
+
+- 在 backend 直接执行 Wrapper 的 help:effective-settings 和 test，未传临时 settings 参数；3 项单元测试通过。
+- 生效配置只包含 course-maven-central 镜像，mirrorOf 为 *，地址为 https://repo.maven.apache.org/maven2；依赖缓存位于 backend/.cache/maven/repository。
+- 检查本次从独立缓存开始下载的日志，所有下载请求均来自 repo.maven.apache.org，没有访问公司仓库。
+- Node 22.23.1 环境安装 pnpm 10.32.1 后，实际执行 nvm use、pnpm --version 和 registry 查询，版本与公共仓库地址符合文档；前端格式检查、类型检查及构建通过。
+- GitHub Actions 缓存路径已同步为项目缓存；Docker 构建上下文排除所有 .cache 目录。

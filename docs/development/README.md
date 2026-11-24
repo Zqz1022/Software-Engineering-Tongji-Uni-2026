@@ -8,11 +8,21 @@
 | --- | --- |
 | JDK | Java 21，执行 `java -version`；IDE 项目 SDK 也设为 21 |
 | Node.js | 22.23.1，根目录提供 `.nvmrc`；nvm 用户可执行 `nvm install`、`nvm use` |
-| pnpm | 10.32.1，可通过 `npm install --global pnpm@10.32.1` 安装；执行 `pnpm --version` 确认 |
-| Maven | Wrapper 固定 3.9.13，使用 `backend/mvnw` 或 `mvnw.cmd` |
+| pnpm | 先切换 Node 22，再执行 `npm install --global pnpm@10.32.1 --registry=https://registry.npmjs.org/`；执行 `pnpm --version` 确认 |
+| Maven | Wrapper 固定 3.9.13，在 backend 中使用 `./mvnw` 或 `mvnw.cmd`，自动加载仓库内独立配置 |
 | Docker | 启动 Docker Desktop 或其他兼容引擎，并确认 `docker compose version` 可用 |
 
 按根目录 [README](../../README.md) 启动数据库、后端和前端。Windows PowerShell 使用 `Copy-Item .env.example .env`，并在 backend 中执行 `.\mvnw.cmd spring-boot:run -Dspring-boot.run.profiles=dev`；其余 pnpm 和 Docker 命令相同。
+
+nvm 为不同 Node 版本分别维护全局工具。在一个 Node 版本中安装 pnpm，不代表切换到另一个版本后仍可直接使用。macOS／Linux 的每个新前端终端应先在仓库根目录执行 `nvm use`，再进入 frontend；pnpm 不随项目依赖自动安装。无需全局安装时，可用 `npx --yes --registry=https://registry.npmjs.org/ pnpm@10.32.1` 替代命令中的 `pnpm`。
+
+### Maven 与 npm 的公共仓库隔离
+
+在 backend 中运行 Maven Wrapper 时，.mvn/maven.config 自动传入项目的 settings.xml 和空 global-settings.xml，替代个人及安装目录中的 Maven 配置。项目以 mirrorOf=* 将依赖与插件仓库统一映射到 `https://repo.maven.apache.org/maven2`，避免传递依赖的 POM 引入其他仓库。
+
+本地依赖缓存在 `backend/.cache/maven/repository`，与个人 ~/.m2/repository 分开。首次切换需要重新下载，后续复用项目缓存；Git 和 Docker 构建上下文都排除该目录。CI 也缓存同一路径。个人 Maven 配置保持原样，供其他项目继续使用。
+
+可执行 `./mvnw help:effective-settings -Doutput=target/effective-settings.xml` 检查生效配置。IDE 直接运行 Maven 时，也应启用读取 .mvn/maven.config，或使用仓库中的配置文件；不要通过额外的 -s／-gs 或环境参数覆盖回公司配置。frontend/.npmrc 将 npm 包仓库固定为 `https://registry.npmjs.org/`，首次安装 pnpm 的命令同样显式使用公共仓库。
 
 | 服务 | 默认地址或端口 | 数据与用途 |
 | --- | --- | --- |
@@ -77,9 +87,10 @@ CI 的三个检查名为 Frontend checks、Backend checks、Browser checks。首
 ## 6. 常见问题
 
 - 端口占用：修改 Compose 的 MYSQL_PORT／TEST_MYSQL_PORT，及相应后端 DB_URL／TEST_DB_URL。前端 5173 被占用时会直接报错，避免测试悄悄访问另一个端口。
+- pnpm command not found：先在仓库根目录执行 nvm use，再按第一节安装固定版本 pnpm；不使用 nvm 时确认 Node 的安装目录已加入 PATH。
 - pnpm 提示 Node 版本不符：切换到 .nvmrc 对应版本后再安装，不忽略 engines 检查。
 - Docker Hub 下载失败：可使用 Docker 官方镜像的公开镜像源下载相同版本，再赋予本地 mysql:8.4.8 标签；不要更换成未经确认的第三方数据库镜像。
-- Maven 使用了个人配置的内部镜像：检查自己的 settings.xml；可通过 Maven 的 -s／-gs 参数使用单独配置，不把个人镜像和凭据写入项目。
+- Maven 日志仍出现公司镜像：确认在 backend 目录使用本分支的 Wrapper，.mvn/maven.config 已加载；检查 IDE 或命令是否覆盖了 -s／-gs 配置。无需删除个人 ~/.m2/settings.xml。
 - 登录接口 403：通过 /auth/csrf 获取同一会话的 token，写请求携带对应 Cookie 与请求头；登录、退出后重新获取 token。
 - 账号被限制：更换会话不会解除限制，应检查开发数据或授权的管理操作，不通过前端字段覆盖账号状态。
 - 停止开发环境：在根目录执行 `docker compose --profile test stop`。保留开发数据卷；删除卷会丢失本地开发数据，不作为常规启动步骤。

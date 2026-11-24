@@ -32,7 +32,19 @@
 
 ## 本地开发
 
-环境：Java 21、Node.js 22.23.1、pnpm 10.32.1、Docker Compose。后端使用仓库内的 Maven Wrapper，无须单独安装 Maven。
+环境：Java 21、Node.js 22.23.1、pnpm 10.32.1、Docker Compose。后端使用仓库内的 Maven Wrapper，无须单独安装 Maven。项目自动使用独立 Maven 配置，依赖和插件统一从公共 Maven Central 下载，缓存在 backend/.cache/maven/repository，不读取个人或系统的 Maven settings.xml。
+
+先准备前端工具。macOS／Linux 使用 nvm 时，在仓库根目录执行：
+
+```sh
+nvm install
+nvm use
+npm install --global pnpm@10.32.1 --registry=https://registry.npmjs.org/
+node --version
+pnpm --version
+```
+
+应分别显示 v22.23.1 和 10.32.1。Node 与 pnpm 按 nvm 的 Node 版本分别安装；每次新开前端终端先在仓库根目录执行 `nvm use`。未使用 nvm 的成员安装同版本 Node.js 后，再执行上述 npm 安装命令。pnpm 不随仓库或 npm 自动安装。
 
 首次准备，在仓库根目录执行：
 
@@ -48,13 +60,15 @@ cd backend
 ./mvnw spring-boot:run -Dspring-boot.run.profiles=dev
 ```
 
-终端二启动前端，先使用符合版本要求的 Node.js 和 pnpm：
+终端二启动前端。使用 nvm 时，先在仓库根目录执行 `nvm use`，再执行：
 
 ```sh
 cd frontend
 pnpm install --frozen-lockfile
 pnpm dev
 ```
+
+不安装全局 pnpm 时，也可在 frontend 中分别用 `npx --yes --registry=https://registry.npmjs.org/ pnpm@10.32.1 install --frozen-lockfile` 和 `npx --yes --registry=https://registry.npmjs.org/ pnpm@10.32.1 dev` 启动，Node 版本要求相同。
 
 访问 <http://127.0.0.1:5173>，选择开发用户一至四中的一个进入论坛。板块从 MySQL 经后端读取，刷新页面保持会话，退出后受保护页面要求重新登录。四个账号均为普通开发身份，不对应具体组员，也不赋予 VIP 或管理权限。
 
