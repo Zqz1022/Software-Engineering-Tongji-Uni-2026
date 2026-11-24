@@ -22,9 +22,12 @@
 ## 项目文档
 
 - [第一次课后至第二次课前的阶段调研报告](docs/design/tongji-campus-forum-research-plan.md)，包含项目章程、五类用户权限、同济身份认证、VIP 充值、28 条用户故事及验收标准、技术风险和工程过程。
-- [软件需求规格说明书（SRS）0.1](docs/requirements/software-requirements-specification.md)，用于第 3 次课课前评审，包含 26 项功能需求、3 项非功能需求、业务规则、外部接口业务契约及验收条件。
-- [用例与场景说明](docs/requirements/use-cases-and-scenarios.md)，包含完整用例目录、身份关联、私聊消息与 VIP 充值细化场景及活动图。
-- [需求模型索引与图源](models/requirements/README.md)，提供用例图、3 张活动图的 PlantUML 源文件及 SVG 预览。
 - [选题 Issue #1](https://github.com/Zqz1022/Software-Engineering-Tongji-Uni-2026/issues/1)。
 
 报告采用公开资料分析与校园场景分析方法，由 OpenAI Codex 辅助整理，资料来源和 AI 使用范围列于正文。
+
+## 需求规约与场景模型
+
+- [软件需求规格说明书（SRS）0.2](docs/requirements/software-requirements-specification.md)，包含 QQ／微信登录、四类业务角色、26 项功能需求、3 项非功能需求与验收条件。
+- [用例与场景说明](docs/requirements/use-cases-and-scenarios.md)，包含完整用例目录，以及第三方登录、私聊消息、VIP 充值细化场景。
+- [需求模型索引与图源](models/requirements/README.md)，提供用例图及 3 张活动图的 PlantUML 源文件和 SVG 预览。

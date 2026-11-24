@@ -92,42 +92,37 @@ frame "B · 普通交流：公开论坛" as Forum {
   MemberForum -- UC09
 }
 
-frame "A · 账号、浏览与身份认证" as Access {
-  actor "注册前使用者\n（仅注册入口）" as BeforeRegistration
-  actor "游客用户" as Guest
+frame "A · 登录与帖子浏览" as Access {
+  actor "未登录使用者\n（会话状态）" as BeforeLogin
   actor "普通用户" as MemberAccess
   actor "VIP 用户" as VIPAccess
   actor "版主" as ModeratorAccess
   actor "管理员" as AdminAccess
-  actor "同济身份认证服务" as Tongji
+  actor "QQ 登录服务" as QQLogin
+  actor "微信登录服务" as WechatLogin
   rectangle "本站系统" as AccessSystem {
-    usecase "UC-01\n注册与登录" as UC01
+    usecase "UC-01\n使用 QQ 登录" as UC01
     usecase "UC-03\n浏览板块帖子" as UC03
     usecase "UC-05\n查看帖子详情" as UC05
-    usecase "UC-19\n关联同济身份" as UC19
+    usecase "UC-19\n使用微信登录" as UC19
   }
-  BeforeRegistration -- UC01 : 注册
-  Guest -- UC01 : 登录
-  Guest -[#1565C0]- UC03 : 浏览
-  Guest -[#1565C0]- UC05 : 查看
-  MemberAccess -- UC01 : 登录
-  MemberAccess -- UC03
-  MemberAccess -- UC05
-  AdminAccess -- UC01 : 登录
-  AdminAccess -- UC03
-  AdminAccess -- UC05
-  Guest -- UC19
-  UC19 -- Tongji
+  BeforeLogin -- UC01
+  BeforeLogin -- UC19
+  UC01 -- QQLogin
+  UC19 -- WechatLogin
+  MemberAccess -[#1565C0]- UC03 : 浏览
+  MemberAccess -[#1565C0]- UC05 : 查看
   MemberAccess <|-- VIPAccess
   MemberAccess <|-- ModeratorAccess
+  MemberAccess <|-- AdminAccess
 }
 legend bottom
-  本图按功能分视图；每个“本站系统”边界均指同一个系统。同名参与者为同一角色。
-  五类业务用户：游客、普通、VIP、版主、管理员。“注册前使用者”仅表示创建账号前的操作主体。
-  游客直接关联 UC-03 浏览板块帖子、UC-05 查看帖子详情，以及登录和身份认证入口。
-  空心三角指向普通用户：VIP、版主继承普通能力；普通用户不会反向获得 VIP 或管理权限。
-  普通用户在 UC-15 提交举报；版主在 UC-16 处理授权板块举报；管理员在 UC-17 执行全站管理。
-  管理授权与身份认证、VIP 状态独立；管理员使用普通交流或 VIP 功能仍需满足相应条件。
-  同济认证、支付宝、微信支付为外部系统；支付平台还可主动触发 UC-26。
+  本图按功能分视图；每个“本站系统”均指同一系统，同名参与者为同一角色。
+  四类业务角色：普通用户、VIP 用户、版主、管理员；未登录使用者仅表示会话状态。
+  QQ 或微信首次有效登录自动创建普通账号，登录后即可浏览、发帖、评论和私聊。
+  空心三角指向普通用户：VIP、版主、管理员具备普通能力，普通用户不反向获得其专属权限。
+  普通用户提交举报（UC-15）；版主处理授权板块举报（UC-16）；管理员执行全站管理（UC-17）。
+  QQ 登录、微信登录、支付宝、微信支付为四个外部集成；微信登录与微信支付分别处理。
+  登录不授予 VIP；管理授权与会员状态独立；支付平台可主动触发 UC-26。
 endlegend
 @enduml
