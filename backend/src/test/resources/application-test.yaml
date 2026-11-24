@@ -1,0 +1,10 @@
+spring:
+  datasource:
+    url: ${TEST_DB_URL:jdbc:mysql://localhost:3308/campus_forum_test?connectionTimeZone=UTC}
+    username: ${TEST_DB_USERNAME:campus_test}
+    password: ${TEST_DB_PASSWORD:campus_test}
+  flyway:
+    locations: classpath:db/migration,classpath:db/dev
+app:
+  dev-login:
+    enabled: true

@@ -1,0 +1,24 @@
+name: 工程任务或缺陷
+description: 框架、CI、数据库、部署或缺陷修复
+title: '[工程] '
+body:
+  - type: textarea
+    id: problem
+    attributes:
+      label: 目标或问题
+      description: 缺陷包含复现步骤、实际与预期行为。
+    validations:
+      required: true
+  - type: textarea
+    id: scope
+    attributes:
+      label: 范围、依赖与需求关联
+      description: 设置 Assignee 和 Milestone，关联支持的 US 或父任务。
+    validations:
+      required: true
+  - type: textarea
+    id: acceptance
+    attributes:
+      label: 完成标准与验证方式
+    validations:
+      required: true

@@ -1,1 +1,15 @@
 .DS_Store
+.idea/
+*.iml
+.vscode/
+.env
+.env.*
+!.env.example
+node_modules/
+dist/
+target/
+coverage/
+playwright-report/
+test-results/
+*.log
+.cache/

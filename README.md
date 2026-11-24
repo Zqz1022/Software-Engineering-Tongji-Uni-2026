@@ -29,3 +29,61 @@
 ## 开发约定
 
 - [项目框架与协作开发约定](docs/development/project-bootstrap-and-collaboration.md)：记录 Vue 3／Spring Boot／MySQL 技术栈、工程目录、业务模块、Issue 与 PR 流程、CI、框架验收标准和三个增量安排。
+
+## 本地开发
+
+环境：Java 21、Node.js 22.23.1、pnpm 10.32.1、Docker Compose。后端使用仓库内的 Maven Wrapper，无须单独安装 Maven。
+
+首次准备，在仓库根目录执行：
+
+```sh
+cp .env.example .env
+docker compose --profile test up -d --wait db test-db
+```
+
+终端一启动后端：
+
+```sh
+cd backend
+./mvnw spring-boot:run -Dspring-boot.run.profiles=dev
+```
+
+终端二启动前端，先使用符合版本要求的 Node.js 和 pnpm：
+
+```sh
+cd frontend
+pnpm install --frozen-lockfile
+pnpm dev
+```
+
+访问 <http://127.0.0.1:5173>，选择开发用户一至四中的一个进入论坛。板块从 MySQL 经后端读取，刷新页面保持会话，退出后受保护页面要求重新登录。四个账号均为普通开发身份，不对应具体组员，也不赋予 VIP 或管理权限。
+
+框架已提供登录态、板块联通和测试基础；QQ／微信真实登录、帖子评论、私聊、支付和治理按用户故事继续实现。开发登录只在 dev/test 中启用，部署配置关闭该入口。
+
+- [开发与协作指南](docs/development/README.md)：版本安装、Windows 命令、模块认领、配置、测试和排错。
+- [接口契约](contracts/openapi.yaml)及[接口维护说明](contracts/README.md)。
+- [部署准备说明](deploy/README.md)：镜像构建、Nginx 与 HTTPS 接入边界。
+
+## 本地检查与 CI
+
+后端在测试数据库启动后执行：
+
+```sh
+cd backend
+./mvnw verify
+```
+
+前端执行：
+
+```sh
+cd frontend
+pnpm format:check
+pnpm api:check
+pnpm typecheck
+pnpm test
+pnpm build
+```
+
+后端开发服务运行时，在 frontend 中执行 `pnpm exec playwright install chromium` 和 `pnpm test:e2e`，验证浏览器登录、读取板块、刷新与退出流程。
+
+[GitHub Actions](.github/workflows/ci.yml) 在 push／PR 时运行前端检查、后端单元及 MySQL 集成测试、浏览器验收，并保存测试报告。仓库设置中的 main 必需检查应包含 `Frontend checks`、`Backend checks`、`Browser checks`；工作流文件不会自动修改远端保护规则。

@@ -1,0 +1,176 @@
+:root {
+  font-family:
+    Inter,
+    -apple-system,
+    BlinkMacSystemFont,
+    'Segoe UI',
+    'PingFang SC',
+    sans-serif;
+  color: #17354a;
+  background: #f5f7f8;
+  font-synthesis: none;
+  --el-color-primary: #1d5a7a;
+}
+* {
+  box-sizing: border-box;
+}
+body {
+  margin: 0;
+}
+button,
+select {
+  font: inherit;
+}
+a {
+  color: inherit;
+}
+h1,
+h2,
+p {
+  margin-top: 0;
+}
+h1 {
+  font-size: clamp(2rem, 4vw, 3.4rem);
+  letter-spacing: -0.04em;
+  line-height: 1.25;
+}
+h2 {
+  font-size: 1.3rem;
+}
+p {
+  line-height: 1.8;
+}
+.muted {
+  color: #607583;
+}
+.small {
+  font-size: 0.83rem;
+}
+.eyebrow {
+  font-size: 0.72rem;
+  letter-spacing: 0.18em;
+  font-weight: 700;
+  color: #427086;
+}
+.login-layout {
+  min-height: 100vh;
+  display: grid;
+  grid-template-columns: 1.1fr 1fr;
+  align-items: center;
+  gap: 5rem;
+  max-width: 1150px;
+  margin: auto;
+  padding: 3rem;
+}
+.intro-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.8rem;
+  margin-top: 2rem;
+}
+.intro-tags span {
+  border: 1px solid #d3dee4;
+  border-radius: 999px;
+  padding: 0.5rem 1rem;
+  font-size: 0.85rem;
+}
+.login-card {
+  background: white;
+  padding: 2.5rem;
+  border: 1px solid #e0e6e9;
+  border-radius: 20px;
+  box-shadow: 0 18px 60px #17354a08;
+}
+.login-form {
+  display: grid;
+  gap: 1rem;
+  margin-top: 1.5rem;
+}
+.login-form .el-tag {
+  justify-self: start;
+}
+select {
+  width: 100%;
+  padding: 0.7rem;
+  border: 1px solid #bccdd7;
+  border-radius: 6px;
+  color: #17354a;
+  background: white;
+}
+.topbar {
+  padding: 1.2rem max(1.5rem, calc((100vw - 1080px) / 2));
+  background: white;
+  border-bottom: 1px solid #e2e8ec;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+}
+.brand {
+  font-size: 1.1rem;
+  font-weight: 750;
+  text-decoration: none;
+}
+.user-menu {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  font-size: 0.9rem;
+}
+.content {
+  max-width: 1130px;
+  margin: 4rem auto;
+  padding: 0 1.5rem;
+}
+.board-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1.3rem;
+  margin-top: 2.5rem;
+}
+.board-card {
+  padding: 2rem;
+  border: 1px solid #dce5ea;
+  border-radius: 14px;
+  background: white;
+}
+.board-number {
+  color: #7593a5;
+  font-size: 0.78rem;
+  letter-spacing: 0.1em;
+  display: block;
+  margin-bottom: 1.5rem;
+}
+.board-card p {
+  color: #607583;
+  margin-bottom: 0;
+}
+.retry {
+  margin-top: 1rem;
+}
+footer {
+  max-width: 1130px;
+  margin: 4rem auto 2rem;
+  padding: 0 1.5rem;
+  color: #607583;
+  font-size: 0.8rem;
+}
+@media (max-width: 760px) {
+  .login-layout {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+    padding: 2rem 1.25rem;
+  }
+  .login-card {
+    padding: 1.5rem;
+  }
+  .board-grid {
+    grid-template-columns: 1fr;
+  }
+  .topbar {
+    flex-wrap: wrap;
+  }
+  .content {
+    margin-top: 2.5rem;
+  }
+}
