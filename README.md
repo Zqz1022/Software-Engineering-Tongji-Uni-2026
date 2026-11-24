@@ -25,3 +25,7 @@
 - [选题 Issue #1](https://github.com/Zqz1022/Software-Engineering-Tongji-Uni-2026/issues/1)。
 
 报告采用公开资料分析与校园场景分析方法，由 OpenAI Codex 辅助整理，资料来源和 AI 使用范围列于正文。
+
+## 开发约定
+
+- [项目框架与协作开发约定](docs/development/project-bootstrap-and-collaboration.md)：记录 Vue 3／Spring Boot／MySQL 技术栈、工程目录、业务模块、Issue 与 PR 流程、CI、框架验收标准和三个增量安排。
