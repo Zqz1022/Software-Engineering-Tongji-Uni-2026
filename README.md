@@ -23,10 +23,13 @@
 
 - [第一次课后至第二次课前的阶段调研报告](docs/design/tongji-campus-forum-research-plan.md)，现为 1.3 版，包含项目章程、四类业务角色、QQ／微信登录、VIP 充值、用户故事摘要与清单索引、技术风险和工程过程。
 - [选题 Issue #1](https://github.com/Zqz1022/Software-Engineering-Tongji-Uni-2026/issues/1)。
+- [用户故事清单 1.0](docs/requirements/user-stories.md)，按业务分组维护 US-01 至 US-28，包含 26 条功能故事、2 条非功能故事及 Given / When / Then 验收标准。
+- [软件需求规格说明书（SRS）0.2](docs/requirements/software-requirements-specification.md)，包含 QQ／微信登录、四类业务角色、26 项功能需求、3 项非功能需求与验收条件。
+- [用例与场景说明](docs/requirements/use-cases-and-scenarios.md)，包含完整用例目录，以及第三方登录、私聊消息、VIP 充值细化场景。
+- [需求模型索引与图源](models/requirements/README.md)，提供用例图及 3 张活动图的 PlantUML 源文件和 SVG 预览。
 
 报告采用公开资料分析与校园场景分析方法，由 OpenAI Codex 辅助整理，资料来源和 AI 使用范围列于正文。
 
-<<<<<<< HEAD
 ## 开发约定
 
 - [项目框架与协作开发约定](docs/development/project-bootstrap-and-collaboration.md)：记录 Vue 3／Spring Boot／MySQL 技术栈、工程目录、业务模块、Issue 与 PR 流程、CI、框架验收标准和三个增量安排。
@@ -102,11 +105,3 @@ pnpm build
 后端开发服务运行时，在 frontend 中执行 `pnpm exec playwright install chromium` 和 `pnpm test:e2e`，验证登录、顶部导航、头像菜单、刷新与退出流程，同时通过带会话的请求验证板块接口联通。
 
 [GitHub Actions](.github/workflows/ci.yml) 在 push／PR 时运行前端检查、后端单元及 MySQL 集成测试、浏览器验收，并保存测试报告。仓库设置中的 main 必需检查应包含 `Frontend checks`、`Backend checks`、`Browser checks`；工作流文件不会自动修改远端保护规则。
-=======
-## 需求规约与场景模型
-
-- [用户故事清单 1.0](docs/requirements/user-stories.md)，按业务分组维护 US-01 至 US-28，包含 26 条功能故事、2 条非功能故事及 Given / When / Then 验收标准。
-- [软件需求规格说明书（SRS）0.2](docs/requirements/software-requirements-specification.md)，包含 QQ／微信登录、四类业务角色、26 项功能需求、3 项非功能需求与验收条件。
-- [用例与场景说明](docs/requirements/use-cases-and-scenarios.md)，包含完整用例目录，以及第三方登录、私聊消息、VIP 充值细化场景。
-- [需求模型索引与图源](models/requirements/README.md)，提供用例图及 3 张活动图的 PlantUML 源文件和 SVG 预览。
->>>>>>> origin/main
