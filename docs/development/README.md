@@ -47,6 +47,8 @@ nvm 为不同 Node 版本分别维护全局工具。在一个 Node 版本中安�
 
 ## 3. 四人并行工作方式
 
+本轮人员与故事分配见[用户故事分工与验收安排](user-story-assignment.md)，包含全部 28 条故事的负责人、建议 Milestone 和验收要点；组长手动维护远端 Issue。
+
 1. 在 Issue 中确定 US／工程任务、主要负责人、验收条件、依赖和 Milestone。姓名分配在 Issue 中记录。
 2. 框架 PR 合入后，从最新 main 创建短期任务分支；框架合入前需要联调时，可使用当前分支查看或运行，避免把独立需求 PR 的内容带入框架提交。
 3. 在对应业务模块添加页面、接口、测试与迁移。修改共享契约、登录规则或公共目录前，在 Issue／PR 中说明影响。
@@ -56,10 +58,10 @@ nvm 为不同 Node 版本分别维护全局工具。在一个 Node 版本中安�
 
 | 业务方向 | 前端目录 | 后端目录与协作重点 |
 | --- | --- | --- |
-| 工程、账号和权限 | src/modules/auth、src/api、src/router | auth、user、common；保持统一会话与授权入口 |
-| 论坛与公开内容治理 | src/modules/forum、src/modules/moderation | forum、moderation；作者权限、版主范围与审计 |
-| 私聊 | src/modules/chat | chat；消息持久化、参与者权限、未读、重试与拉黑 |
-| VIP 与支付 | src/modules/membership | membership；支付适配、幂等发放、到期与展示 |
+| 工程、账号与社区治理（张启政） | src/modules/auth、src/modules/user、src/modules/moderation、src/api、src/router | auth、user、moderation、common；统一认证、举报、管理授权及审计 |
+| 论坛（刘笑云） | src/modules/forum | forum；作者权限、板块管理与内容治理服务 |
+| 私聊（周禹佟） | src/modules/chat | chat；消息持久化、参与者权限、未读、重试与拉黑 |
+| VIP 与支付（李灏文） | src/modules/membership | membership；支付适配、幂等发放、到期与展示 |
 
 Spring Boot、MyBatis、Flyway 等库的具体版本固定在 pom 和父 BOM 中；前端依赖与 pnpm 锁文件一起提交。禁止额外提交 package-lock.json 或 yarn.lock。修改依赖使用 pnpm，不手工编辑锁文件。
 

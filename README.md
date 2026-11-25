@@ -33,6 +33,7 @@
 ## 开发约定
 
 - [项目框架与协作开发约定](docs/development/project-bootstrap-and-collaboration.md)：记录 Vue 3／Spring Boot／MySQL 技术栈、工程目录、业务模块、Issue 与 PR 流程、CI、框架验收标准和三个增量安排。
+- [用户故事分工与验收安排](docs/development/user-story-assignment.md)：28 条故事的四人分配、逐条验收要点、跨组接口和手动建立 Issue 的步骤。
 
 ## 本地开发
 
