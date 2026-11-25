@@ -1,0 +1,73 @@
+@startuml
+title UC-12 · 收发文本消息活动图（关联 UC-10、UC-18）
+skinparam defaultFontName PingFang SC
+skinparam shadowing false
+skinparam activityBackgroundColor #EFF6FC
+skinparam activityBorderColor #355C7D
+|发送者|
+start
+:从帖子作者入口或已有会话准备发送;
+|本站系统|
+:检查发送者会话、双方账号状态、会话权限、
+拉黑关系及非本人自聊;
+if (允许交流？) then (是)
+  :返回双方唯一会话;
+else (否)
+  :拒绝发起或发送并说明原因；
+已有历史仍按原会话参与关系读取;
+  stop
+endif
+|发送者|
+:输入 1—2000 个 Unicode 码点非空白文本；
+生成客户端请求标识并发送;
+|本站系统|
+:重新检查当前权限；校验会话、文本
+及请求标识所属发送者;
+if (请求有效？) then (是)
+  if (该请求标识已有保存结果？) then (是)
+    if (会话与原文一致？) then (是)
+      :返回原消息编号及保存结果；不新增消息;
+    else (否)
+      :拒绝标识复用冲突;
+      stop
+    endif
+  else (否)
+    :按发送者和请求标识保存唯一消息;
+    if (保存成功？) then (是)
+      :生成消息编号和服务端时间;
+    else (否)
+      |发送者|
+      :显示发送失败；保留原文和请求标识；
+重试从请求校验步骤重新执行;
+      stop
+    endif
+  endif
+else (否)
+  |本站系统|
+  :拒绝请求；不保存消息;
+  stop
+endif
+|本站系统|
+:返回持久化结果，并投递或保留消息;
+fork
+  |发送者|
+  if (收到保存确认？) then (是)
+    :显示发送成功;
+  else (超时或断线)
+    :保留原请求标识与文本；
+恢复连接后执行 UC-18 确认结果;
+  endif
+fork again
+  |本站系统|
+  if (接收者在线且投递成功？) then (是)
+    |接收者|
+    :按消息编号去重显示并更新未读提示;
+  else (离线或投递失败)
+    |本站系统|
+    :保留持久化消息供重连读取;
+    |接收者|
+    :再次连接后从会话历史同步消息;
+  endif
+end fork
+stop
+@enduml
