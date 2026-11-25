@@ -1,0 +1,64 @@
+@startuml
+title UC-21 / UC-22 · VIP 充值活动图（关联 UC-20、UC-25、UC-26）
+skinparam defaultFontName PingFang SC
+skinparam shadowing false
+skinparam activityBackgroundColor #EFF6FC
+skinparam activityBorderColor #355C7D
+|普通用户或 VIP 用户|
+start
+:选择在售套餐及支付宝或微信支付;
+|本站系统|
+:校验本站会话、账号状态和套餐；
+按服务端价格与时长创建本人订单快照;
+if (订单有效且创建成功？) then (是)
+  :使用订单绑定渠道发起支付;
+else (否)
+  :提示失败；保留原会员权益;
+  stop
+endif
+|支付平台（支付宝 / 微信支付）|
+:展示支付信息并处理支付;
+|本站系统|
+:接收异步通知；通知延迟时主动查单;
+note right
+  页面跳转或客户端“成功”提示
+  不作为会员发放依据。
+end note
+:校验通知签名或可信查单响应；
+微信支付通知同时解密；
+核对商户、订单、金额、币种与交易状态;
+if (结果可信且业务字段匹配？) then (是)
+  if (平台确认支付成功？) then (是)
+    :以订单为单位检查权益发放记录;
+    if (已完成发放？) then (是)
+      :返回已有支付及会员结果；不重复延长;
+    else (否)
+      :原子记录成功交易、权益发放和新期限；
+新期限 = max(原期限, 发放时刻) + 套餐时长;
+      note right
+        不同订单并发续费分别累加；
+        同一订单重复处理只生效一次。
+      end note
+      if (一致更新成功？) then (是)
+        :返回支付成功及权益生效状态;
+      else (否)
+        :不展示权益已生效；通过通知重试或查单
+重新核验并恢复一致结果;
+        stop
+      endif
+    endif
+  else (未支付、取消或关闭)
+    :按平台结果更新订单；不增加会员时长；
+关闭与成功冲突时重新查单核对;
+    stop
+  endif
+else (否或渠道不可用)
+  :拒绝不可信结果或记录查询失败；
+不发放权益；保留查单重试能力;
+  stop
+endif
+|普通用户或 VIP 用户|
+:查看本人订单与会员期限；
+使用金色昵称及主页装扮;
+stop
+@enduml

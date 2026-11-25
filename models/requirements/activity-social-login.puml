@@ -1,0 +1,58 @@
+@startuml
+title UC-01 / UC-19 · QQ 与微信登录活动图
+skinparam defaultFontName PingFang SC
+skinparam shadowing false
+skinparam activityBackgroundColor #EFF6FC
+skinparam activityBorderColor #355C7D
+|未登录使用者|
+start
+:选择 QQ 或微信登录;
+|本站系统|
+:创建一次性登录上下文；
+绑定 state、浏览器、渠道、应用及有效期;
+:引导至所选渠道授权入口;
+|登录服务（QQ / 微信）|
+:使用者在平台侧完成授权;
+if (同意授权且平台可用？) then (是)
+  :返回授权码与 state;
+else (取消或失败)
+  |本站系统|
+  :不建立本站会话；提示重新登录或切换渠道;
+  stop
+endif
+|本站系统|
+:验证 state、浏览器关联、渠道、应用、
+有效期及一次性使用条件;
+if (登录上下文有效？) then (是)
+  :服务端兑换授权结果并获取可信渠道用户标识;
+else (否)
+  :拒绝伪造、过期、串渠道或重放请求;
+  stop
+endif
+if (平台身份核验成功？) then (是)
+  :按“渠道 + 应用 + 渠道用户标识”查找本站账号;
+else (否或服务不可达)
+  :提示登录失败；不建号、不建立会话;
+  stop
+endif
+if (已有对应账号？) then (是)
+  :读取已有账号及其会员、管理授权;
+else (否)
+  :原子创建普通账号和唯一身份映射；
+并发登录复用同一映射结果;
+endif
+note right
+  不按昵称或头像合并 QQ 与微信账号。
+  第三方登录不发放 VIP 或管理权限。
+end note
+if (账号正常且持久化成功？) then (是)
+  :消耗一次性上下文并建立本站会话;
+else (否)
+  :拒绝业务会话；保留可核对的账号状态;
+  stop
+endif
+|普通用户（或已有角色用户）|
+:进入论坛；可浏览、搜索、发帖、评论和私聊;
+:退出或会话过期后重新登录；账号及历史保留;
+stop
+@enduml
