@@ -1,0 +1,222 @@
+openapi: 3.0.3
+info:
+  title: 同济校园论坛 API
+  version: 0.0.1
+  description: 框架阶段的会话与板块接口。开发登录仅在 dev/test 环境启用。
+servers:
+  - url: /api/v1
+security:
+  - sessionCookie: []
+tags:
+  - name: Auth
+  - name: Forum
+  - name: Development
+paths:
+  /auth/options:
+    get:
+      operationId: getLoginOptions
+      tags: [Auth]
+      summary: 获取当前环境的登录能力
+      security: []
+      responses:
+        "200":
+          description: 登录能力
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/LoginOptions"
+  /auth/csrf:
+    get:
+      operationId: getCsrfToken
+      tags: [Auth]
+      summary: 获取绑定当前会话的 CSRF token
+      description: 浏览器保存响应中的 SESSION Cookie，并在写请求中回传 Cookie 和指定的 CSRF 请求头。
+      security: []
+      responses:
+        "200":
+          description: CSRF 请求头名称与 token
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Csrf"
+  /auth/me:
+    get:
+      operationId: getCurrentUser
+      tags: [Auth]
+      summary: 获取当前普通账号资料
+      responses:
+        "200":
+          description: 有效且未受限的当前账号
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/User"
+        "401":
+          $ref: "#/components/responses/Unauthenticated"
+        "403":
+          $ref: "#/components/responses/Forbidden"
+  /auth/logout:
+    post:
+      operationId: logout
+      tags: [Auth]
+      summary: 注销当前会话
+      parameters:
+        - $ref: "#/components/parameters/CsrfHeader"
+      responses:
+        "204":
+          description: 当前会话已失效
+        "403":
+          $ref: "#/components/responses/Forbidden"
+  /dev/session:
+    post:
+      operationId: createDevelopmentSession
+      tags: [Development]
+      summary: 使用固定开发身份建立普通用户会话
+      description: 仅 dev/test 环境可用；prod 不注册该接口。不能选择管理角色或自定义账号。
+      security: []
+      parameters:
+        - $ref: "#/components/parameters/CsrfHeader"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              additionalProperties: false
+              required: [userId]
+              properties:
+                userId:
+                  type: integer
+                  format: int64
+                  minimum: 1001
+                  maximum: 1004
+      responses:
+        "200":
+          description: 会话已创建并更换会话标识
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/User"
+        "400":
+          description: 开发身份不合法
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+        "403":
+          $ref: "#/components/responses/Forbidden"
+        "404":
+          description: 当前环境未启用开发登录
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+  /boards:
+    get:
+      operationId: listBoards
+      tags: [Forum]
+      summary: 读取已启用的校园板块
+      description: 要求有效会话和正常账号状态，按 sort_order 与 id 排序。框架只提供板块列表，不代表帖子故事已完成。
+      responses:
+        "200":
+          description: 板块列表
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/BoardList"
+        "401":
+          $ref: "#/components/responses/Unauthenticated"
+        "403":
+          $ref: "#/components/responses/Forbidden"
+components:
+  securitySchemes:
+    sessionCookie:
+      type: apiKey
+      in: cookie
+      name: SESSION
+  parameters:
+    CsrfHeader:
+      name: X-CSRF-TOKEN
+      in: header
+      required: true
+      schema:
+        type: string
+      description: 由 /auth/csrf 返回的 token；登录或注销后重新获取。
+  responses:
+    Unauthenticated:
+      description: 未登录或会话失效
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/ApiError"
+    Forbidden:
+      description: CSRF 校验失败、账号受限或权限不足
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/ApiError"
+  schemas:
+    LoginOptions:
+      type: object
+      additionalProperties: false
+      required: [devLoginEnabled]
+      properties:
+        devLoginEnabled:
+          type: boolean
+    Csrf:
+      type: object
+      additionalProperties: false
+      required: [headerName, token]
+      properties:
+        headerName:
+          type: string
+          enum: [X-CSRF-TOKEN]
+        token:
+          type: string
+    User:
+      type: object
+      additionalProperties: false
+      required: [id, displayName, status]
+      properties:
+        id:
+          type: integer
+          format: int64
+        displayName:
+          type: string
+        status:
+          type: string
+          enum: [ACTIVE, RESTRICTED]
+    Board:
+      type: object
+      additionalProperties: false
+      required: [id, code, name, description]
+      properties:
+        id:
+          type: integer
+          format: int64
+        code:
+          type: string
+        name:
+          type: string
+        description:
+          type: string
+    BoardList:
+      type: object
+      additionalProperties: false
+      required: [items]
+      properties:
+        items:
+          type: array
+          items:
+            $ref: "#/components/schemas/Board"
+    ApiError:
+      type: object
+      additionalProperties: false
+      required: [code, message, status]
+      properties:
+        code:
+          type: string
+        message:
+          type: string
+        status:
+          type: integer
