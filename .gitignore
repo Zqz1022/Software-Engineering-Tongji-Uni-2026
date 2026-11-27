@@ -13,3 +13,4 @@ playwright-report/
 test-results/
 *.log
 .cache/
+CLAUDE.md
