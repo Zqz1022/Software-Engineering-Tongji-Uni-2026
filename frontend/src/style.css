@@ -1,0 +1,394 @@
+:root {
+  font-family:
+    Inter,
+    -apple-system,
+    BlinkMacSystemFont,
+    'Segoe UI',
+    'PingFang SC',
+    sans-serif;
+  color: #17354a;
+  background: #f5f7f8;
+  font-synthesis: none;
+  --el-color-primary: #1d5a7a;
+}
+* {
+  box-sizing: border-box;
+}
+body {
+  margin: 0;
+}
+button,
+select {
+  font: inherit;
+}
+a {
+  color: inherit;
+}
+h1,
+h2,
+p {
+  margin-top: 0;
+}
+h1 {
+  font-size: clamp(2rem, 4vw, 3.4rem);
+  letter-spacing: -0.04em;
+  line-height: 1.25;
+}
+h2 {
+  font-size: 1.3rem;
+}
+p {
+  line-height: 1.8;
+}
+.muted {
+  color: #607583;
+}
+.small {
+  font-size: 0.83rem;
+}
+.eyebrow {
+  font-size: 0.72rem;
+  letter-spacing: 0.18em;
+  font-weight: 700;
+  color: #427086;
+}
+.login-layout {
+  min-height: 100vh;
+  display: grid;
+  grid-template-columns: 1.1fr 1fr;
+  align-items: center;
+  gap: 5rem;
+  max-width: 1150px;
+  margin: auto;
+  padding: 3rem;
+}
+.intro-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.8rem;
+  margin-top: 2rem;
+}
+.intro-tags span {
+  border: 1px solid #d3dee4;
+  border-radius: 999px;
+  padding: 0.5rem 1rem;
+  font-size: 0.85rem;
+}
+.login-card {
+  background: white;
+  padding: 2.5rem;
+  border: 1px solid #e0e6e9;
+  border-radius: 20px;
+  box-shadow: 0 18px 60px #17354a08;
+}
+.login-form {
+  display: grid;
+  gap: 1rem;
+  margin-top: 1.5rem;
+}
+.login-form .el-tag {
+  justify-self: start;
+}
+select {
+  width: 100%;
+  padding: 0.7rem;
+  border: 1px solid #bccdd7;
+  border-radius: 6px;
+  color: #17354a;
+  background: white;
+}
+.app-layout {
+  min-height: 100vh;
+  min-height: 100dvh;
+  display: flex;
+  flex-direction: column;
+}
+.app-icon {
+  width: 1.2rem;
+  height: 1.2rem;
+  flex-shrink: 0;
+}
+.skip-link {
+  position: fixed;
+  top: -5rem;
+  left: 1rem;
+  z-index: 10;
+  padding: 0.75rem 1rem;
+  background: white;
+}
+.skip-link:focus {
+  top: 0.5rem;
+}
+.app-header {
+  background: white;
+  border-bottom: 1px solid #e2e8ec;
+}
+.topbar {
+  max-width: 1200px;
+  margin: auto;
+  padding: 0 2rem;
+  min-height: 84px;
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: center;
+  gap: 2rem;
+}
+.brand {
+  display: inline-flex;
+  align-items: center;
+  justify-self: start;
+  gap: 0.75rem;
+  font-size: 1.1rem;
+  font-weight: 750;
+  text-decoration: none;
+  white-space: nowrap;
+}
+.brand-mark {
+  display: grid;
+  place-items: center;
+  width: 36px;
+  height: 36px;
+  border-radius: 11px;
+  background: #1d5a7a;
+  color: white;
+  font-family: 'Songti SC', serif;
+  font-size: 1.25rem;
+}
+.primary-nav {
+  display: flex;
+  align-self: stretch;
+  gap: 0.6rem;
+}
+.nav-link {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-width: 76px;
+  padding: 1rem;
+  text-decoration: none;
+  font-weight: 600;
+  color: #647885;
+}
+.nav-link:hover {
+  color: #1d5a7a;
+  background: #f8fafb;
+}
+.nav-link--active {
+  color: #1d5a7a;
+}
+.nav-link--active::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  width: 26px;
+  height: 3px;
+  border-radius: 3px 3px 0 0;
+  background: #1d5a7a;
+}
+.account-dropdown {
+  justify-self: end;
+  min-width: 0;
+  max-width: 100%;
+}
+.account-trigger {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+  max-width: 100%;
+  padding: 0.35rem;
+  border: 0;
+  border-radius: 999px;
+  background: transparent;
+  color: #365568;
+  cursor: pointer;
+  font-size: 0.85rem;
+}
+.account-trigger:hover {
+  background: #f0f5f7;
+}
+.account-trigger:disabled {
+  cursor: wait;
+  opacity: 0.6;
+}
+.account-name {
+  max-width: 9rem;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.avatar {
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+  width: 38px;
+  height: 38px;
+  border: 1px solid #d0e0e7;
+  border-radius: 50%;
+  background: #e9f1f5;
+  color: #47758a;
+}
+.avatar .app-icon {
+  width: 22px;
+  height: 22px;
+}
+.account-menu {
+  min-width: 170px;
+}
+.account-menu .app-icon {
+  margin-right: 0.65rem;
+}
+.brand:focus-visible,
+.nav-link:focus-visible,
+.account-trigger:focus-visible {
+  outline: 2px solid #1d5a7a;
+  outline-offset: 4px;
+}
+.app-content {
+  width: 100%;
+  max-width: 1136px;
+  margin: 0 auto;
+  padding: 3rem 2rem;
+  flex: 1;
+}
+.app-content > .el-alert {
+  margin-bottom: 1.5rem;
+}
+.page-heading {
+  margin-bottom: 2rem;
+}
+.page-heading h1 {
+  margin-bottom: 0.5rem;
+  font-size: 1.8rem;
+  letter-spacing: -0.03em;
+}
+.page-heading p {
+  margin-bottom: 0;
+  font-size: 0.9rem;
+  color: #607583;
+}
+.development-panel {
+  min-height: 440px;
+  padding: 4rem 2rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  border: 1px solid #e0e8ec;
+  border-radius: 20px;
+  background: white;
+  box-shadow: 0 8px 32px #17354a03;
+}
+.feature-illustration {
+  display: grid;
+  place-items: center;
+  width: 82px;
+  height: 82px;
+  margin-bottom: 1.6rem;
+  border: 1px solid #dde9ee;
+  border-radius: 24px;
+  background: #f0f6f8;
+  color: #47758a;
+  box-shadow: 8px -8px 0 #f8fafb;
+}
+.feature-illustration .app-icon {
+  width: 34px;
+  height: 34px;
+}
+.feature-illustration--vip {
+  color: #a17c35;
+  background: #faf6ed;
+  border-color: #eee4cd;
+}
+.development-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  margin-bottom: 0.9rem;
+  padding: 0.3rem 0.7rem;
+  border-radius: 999px;
+  background: #f1f5f7;
+  color: #5d7889;
+  font-size: 0.72rem;
+}
+.development-badge > span {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: #7896a5;
+}
+.development-panel h2 {
+  margin-bottom: 0.8rem;
+  font-size: 1.4rem;
+}
+.development-panel p {
+  max-width: 390px;
+  margin-bottom: 1.8rem;
+  color: #607583;
+  font-size: 0.9rem;
+}
+.development-note {
+  color: #728592;
+  font-size: 0.78rem;
+}
+.app-footer {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  width: 100%;
+  max-width: 1136px;
+  margin: 0 auto;
+  padding: 0 2rem 1.5rem;
+  color: #728592;
+  font-size: 0.78rem;
+}
+@media (max-width: 760px) {
+  .login-layout {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+    padding: 2rem 1.25rem;
+  }
+  .login-card {
+    padding: 1.5rem;
+  }
+  .topbar {
+    grid-template-columns: 1fr auto;
+    gap: 0;
+    padding: 0.8rem 1.25rem 0;
+  }
+  .primary-nav {
+    grid-row: 2;
+    grid-column: 1 / -1;
+    justify-content: center;
+    margin-top: 0.5rem;
+  }
+  .nav-link {
+    flex: 1;
+    min-width: 0;
+    padding: 1rem 0.75rem;
+  }
+  .account-dropdown {
+    grid-row: 1;
+    grid-column: 2;
+  }
+  .account-name,
+  .account-trigger > .app-icon {
+    display: none;
+  }
+  .app-content {
+    padding: 2rem 1.25rem;
+  }
+  .page-heading {
+    margin-bottom: 1.5rem;
+  }
+  .development-panel {
+    min-height: 390px;
+    padding: 2.5rem 1.5rem;
+    border-radius: 16px;
+  }
+  .app-footer {
+    flex-wrap: wrap;
+    padding: 0 1.25rem 1.25rem;
+  }
+}
