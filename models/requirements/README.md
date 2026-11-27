@@ -1,6 +1,6 @@
 # 需求阶段模型
 
-本目录与 [SRS 0.2](../../docs/requirements/software-requirements-specification.md)及[用例与场景说明](../../docs/requirements/use-cases-and-scenarios.md)配套，作为第 3 次课课前需求评审材料。
+本目录与 [SRS 1.0](../../docs/requirements/software-requirements-specification.md)及[用例与场景说明](../../docs/requirements/use-cases-and-scenarios.md)配套，随 `srs-v1.0` 固定为需求模型基线，供后续分析建模、设计和验收引用。此次定稿保留现有图源与 SVG，模型变化见 [SRS 变更记录](../../docs/requirements/CHANGELOG.md)。
 
 | 模型 | 覆盖内容 | 可编辑源文件 | 预览 |
 | --- | --- | --- | --- |

@@ -1,0 +1,83 @@
+name: Publish SRS v1.0
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: publish-srs-v1.0
+  cancel-in-progress: false
+
+jobs:
+  release:
+    name: Package and publish SRS v1.0
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    permissions:
+      contents: write
+    env:
+      GH_HOST: github.com
+      GH_REPO: ${{ github.repository }}
+      GH_TOKEN: ${{ github.token }}
+      RELEASE_TAG: srs-v1.0
+    steps:
+      - name: Require the reviewed main branch
+        run: |
+          if [ "$GITHUB_REF" != refs/heads/main ]; then
+            echo 'Run this workflow from main after the SRS PR has been reviewed and merged.' >&2
+            exit 1
+          fi
+
+      - uses: actions/checkout@v5
+        with:
+          fetch-depth: 0
+
+      - name: Check version and protect the published baseline
+        shell: bash
+        run: |
+          if git show-ref --verify --quiet "refs/tags/$RELEASE_TAG"; then
+            echo 'srs-v1.0 already exists. Inspect its Release; do not overwrite the baseline.' >&2
+            exit 1
+          fi
+          python3 - <<'PY'
+          from pathlib import Path
+          import re
+          srs = Path('docs/requirements/software-requirements-specification.md').read_text()
+          assert '| 文档版本 | 1.0（需求基线） |' in srs, 'SRS version must be 1.0'
+          assert re.findall(r'^### FR-(\d{2}) ', srs, re.M) == [f'{i:02}' for i in range(1, 27)]
+          assert re.findall(r'^### NFR-(\d{2}) ', srs, re.M) == ['01', '02', '03']
+          assert re.findall(r'^\| CON-(\d{2}) ', srs, re.M) == [f'{i:02}' for i in range(1, 9)]
+          assert '## 1.0 — 2026-11-27' in Path('docs/requirements/CHANGELOG.md').read_text()
+          PY
+
+      - name: Package the exact commit and checksums
+        shell: bash
+        run: |
+          mkdir -p "$RUNNER_TEMP/srs-release"
+          git archive --format=zip --prefix=campus-forum-srs-v1.0/ \
+            --output="$RUNNER_TEMP/srs-release/srs-v1.0-docs.zip" "$GITHUB_SHA" \
+            docs/requirements \
+            docs/design/tongji-campus-forum-research-plan.md \
+            models/requirements \
+            docs/releases/srs-v1.0.md
+          cp docs/requirements/CHANGELOG.md "$RUNNER_TEMP/srs-release/srs-v1.0-CHANGELOG.md"
+          printf '%s\n' "$GITHUB_SHA" > "$RUNNER_TEMP/srs-release/SOURCE_COMMIT.txt"
+          cd "$RUNNER_TEMP/srs-release"
+          sha256sum srs-v1.0-docs.zip srs-v1.0-CHANGELOG.md SOURCE_COMMIT.txt > SHA256SUMS
+
+      - name: Upload all assets before publishing
+        shell: bash
+        run: |
+          gh release create "$RELEASE_TAG" \
+            "$RUNNER_TEMP/srs-release/srs-v1.0-docs.zip" \
+            "$RUNNER_TEMP/srs-release/srs-v1.0-CHANGELOG.md" \
+            "$RUNNER_TEMP/srs-release/SOURCE_COMMIT.txt" \
+            "$RUNNER_TEMP/srs-release/SHA256SUMS" \
+            --target "$GITHUB_SHA" \
+            --title 'SRS v1.0 — 校园论坛与站内私聊系统需求基线' \
+            --notes-file docs/releases/srs-v1.0.md \
+            --draft --latest=false
+          gh release edit "$RELEASE_TAG" --draft=false --latest=false
+          gh release view "$RELEASE_TAG" --json url --jq .url >> "$GITHUB_STEP_SUMMARY"

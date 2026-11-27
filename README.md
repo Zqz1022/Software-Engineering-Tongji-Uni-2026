@@ -24,7 +24,7 @@
 - [第一次课后至第二次课前的阶段调研报告](docs/design/tongji-campus-forum-research-plan.md)，现为 1.3 版，包含项目章程、四类业务角色、QQ／微信登录、VIP 充值、用户故事摘要与清单索引、技术风险和工程过程。
 - [选题 Issue #1](https://github.com/Zqz1022/Software-Engineering-Tongji-Uni-2026/issues/1)。
 - [用户故事清单 1.0](docs/requirements/user-stories.md)，按业务分组维护 US-01 至 US-28，包含 26 条功能故事、2 条非功能故事及 Given / When / Then 验收标准。
-- [软件需求规格说明书（SRS）0.2](docs/requirements/software-requirements-specification.md)，包含 QQ／微信登录、四类业务角色、26 项功能需求、3 项非功能需求与验收条件。
+- [软件需求规格说明书（SRS）1.0](docs/requirements/software-requirements-specification.md)，包含 26 项功能需求、3 项非功能需求、8 项约束条件及验收标准；[变更记录](docs/requirements/CHANGELOG.md)和 [srs-v1.0 发布说明](docs/releases/srs-v1.0.md)随需求基线维护。
 - [用例与场景说明](docs/requirements/use-cases-and-scenarios.md)，包含完整用例目录，以及第三方登录、私聊消息、VIP 充值细化场景。
 - [需求模型索引与图源](models/requirements/README.md)，提供用例图及 3 张活动图的 PlantUML 源文件和 SVG 预览。
 
@@ -34,6 +34,7 @@
 
 - [项目框架与协作开发约定](docs/development/project-bootstrap-and-collaboration.md)：记录 Vue 3／Spring Boot／MySQL 技术栈、工程目录、业务模块、Issue 与 PR 流程、CI、框架验收标准和三个增量安排。
 - [用户故事分工与验收安排](docs/development/user-story-assignment.md)：28 条故事的四人分配、逐条验收要点、跨组接口和手动建立 Issue 的步骤。
+- [SRS 1.0 发布操作](docs/development/srs-release.md)：PR 合并后，从 main 手动触发 Actions，发布需求文档 Release 及附件。
 
 ## 本地开发
 
